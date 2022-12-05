@@ -1,0 +1,5 @@
+function generateHtml(answers) {
+    `
+   
+    `;
+}

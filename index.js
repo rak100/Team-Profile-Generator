@@ -107,9 +107,9 @@ async function promptQuestions() {
 }
 promptQuestions();
 
-function createTeam() {
+function createTeam(readme, data) {
   console.log('new guy', newMembers)
   fs.writeFileSync(
-    "./dist/index.html", generateTeam(newMembers)
+    "officecrew-generator.html", generateTeam(newMembers)
   );
 }
