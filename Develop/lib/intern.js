@@ -1,10 +1,11 @@
+const Employee = require('./employee');
+
 // creating class for intern
-class Intern {
+class Intern extends Employee {
   constructor({ name, id, email, school }) {
-    this.name = name;
-    this.id = id;
-    this.email = email;
+    super({name, id, email});
     this.school = school;
+    this.role = 'Intern';
   }
   // get the name input from user
   getName() {
@@ -24,7 +25,7 @@ class Intern {
   }
   // get role for Intern & returns Intern
   getRole(){
-    return 'Intern'
+    return this.role
   }
 }
 // export module

@@ -4,6 +4,7 @@ class Employee{
         this.name = name;
         this.id = id;
         this.email = email;
+        this.role = 'Employee';
     }
     // get the name input from user 
 getName(){
@@ -17,10 +18,10 @@ getId(){
 getEmail(){
     return this.email
 }
-// get role for Employee & returns Employee 
 getRole(){
-    return 'Employee'
+    return this.role
 }
+
 }
 // export module 
 module.exports = Employee;

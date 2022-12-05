@@ -1,0 +1,21 @@
+header{
+    font-size: 18px;
+    width: 100%;
+    background-color: #22221d;
+    padding: 10px;
+    color: whitesmoke;
+
+}
+#main-box{
+    margin: 20px;
+}
+.card{
+    box-shadow: 5px 5px grey;
+}
+.card-header{
+    background-color: gainsboro;
+}
+.card ul li {
+    background-color: #22221d;
+    color: whitesmoke;
+}

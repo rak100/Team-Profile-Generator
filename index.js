@@ -1,21 +1,19 @@
 // Module Imports
-const Inquirer = require("inquirer");
+const inquirer = require("inquirer");
 const fs = require("fs");
-// const Html = require("");
+const generateHtml = require("");
 
 // class Imports except Employee.js (It's inherited in the below)
-const Manager = require("./Develop/lib/manager");
-const Engineer = require("./Develop/lib/engineer");
-const Intern = require("./Develop/lib/intern");
-const { default: inquirer } = require("inquirer");
-// const Engineer = require("./Develop/lib/engineer");
+const Engineer = require('./Develop/lib/engineer');
+const Intern = require('./Develop/lib/intern');
+const Manager = require('./Develop/lib/manager');
 
 // empty array to push selected members
 const newMembers = [];
 
-// questions to add members
-const Questions = async () => {
-  const Answers = await inquirer.prompt([
+const questions = async () => {
+  const answers = await inquirer
+  .createPromptModule([
     {
       type: "input",
       name: "name",
@@ -35,65 +33,83 @@ const Questions = async () => {
       type: "list",
       name: "role",
       message: "What is your role?",
-      choices: [
-        "Manager",
-       "Engineer",
-        "Intern"],
-      filter(val) {
-        return val;
+      choices: ["Manager", "Engineer", "Intern"],
+    },
+  ]) 
+  // console.log(answers);
+  if (answers.role === "Manager") {
+    const managerAns = await inquirer.createPromptModule([
+      {
+        type: "input",
+        name: "officeNumber",
+        message: "Pleae enter your office number?",
       },
-    },
-  ]);
-//   console.log(Answers);
-// if user selects Manager, then will be prompted with these additional questions
-if (Answers.role === "Manager") {
-  const ans_Manager = await inquirer.prompt([
-    {
-      type: "input",
-      name: "officenumber",
-      message: "Pleae enter your office number?",
-    },
-  ]);
-  // create new Manager with user inputs
-  const new_Manager = new Manager(
-    Answers.name,
-    Answers.id,
-    Answers.email,
-    ans_Manager.officeNumber
-  );
-  newMembers.push(new_Manager);
-//   console.log(new_Manager)
-} else if (Answers.role === "Engineer") {
-  const ans_Engineer = await inquirer.prompt([
-    {
-      type: "input",
-      name: "github",
-      message: "Pleae enter your Github?",
-    },
-  ]);
-  const new_Engineer = new Engineer(
-    Answers.name,
-    Answers.id,
-    Answers.email,
-    ans_Engineer.github
-  );
-  newMembers.push(new_Engineer);
-//   console.log(new_Engineer);
-} else if (Answers.role === "Intern") {
-  const ans_Intern = await inquirer.prompt([
-    {
-      type: "input",
-      name: "school",
-      message: "What school did you graduate from?",
-    },
-  ]);
-  const new_Intern = new Intern(
-    Answers.name,
-    Answers.id,
-    Answers.email,
-    ans_Intern.school
-  );
-  newMembers.push(new_Intern);
-//   console.log(ans_Intern);
+    ])
+    const newManager = new Manager(
+      answers.name,
+      answers.id,
+      answers.email,
+      managerAns.officeNumber
+    );
+    newMembers.push(newManager);
+  } else if (answers.role === "Engineer") {
+    const engineerAns = await inquirer.createPromptModule([
+      {
+        type: "input",
+        name: "github",
+        message: "Pleae enter your Github username?",
+      },
+    ])
+    const newEngineer = new Engineer(
+      answers.name,
+      answers.id,
+      answers.email,
+      engineerAns.github
+    );
+    newMembers.push(newEngineer);
+  } else if (answers.role === "Intern") {
+    const internAns = await inquirer.createPromptModule([
+      {
+        type: "input",
+        name: "school",
+        message: "What school did you graduate from?",
+      },
+    ])
+    const newIntern = new Intern(
+      answers.name,
+      answers.id,
+      answers.email,
+      internAns.school,
+    );
+    newMembers.push(newIntern);
+  // } else (!answers.role) {
+  //   return alert("Please choose a role")
+  // }
+
 }
+}
+
+async function promptQuestions() {
+  await questions()
+  const addMemberAns = await inquirer
+  .createPromptModule([
+    {
+      type: "list",
+      name: "addMember",
+      message: "Who would you like to add?",
+      choices: ["Add new member", "Create Team"],
+    },
+  ])
+  if (addMemberAns.addMember === "Add new member") { //try to change add member to addMemberAns.choices
+    return promptQuestions()
+  }
+  return createTeam();
+}
+promptQuestions();
+
+function createTeam() {
+  console.log('new guy', newMembers)
+  fs.writeFileSync(
+    "./dist/index.html", generateTeam(newMembers)
+  );
 }

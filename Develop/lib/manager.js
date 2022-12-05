@@ -1,11 +1,12 @@
-// creating class for manager
-class Manager {
-  constructor({ name, id, email, officeNumber }) {
-    this.name = name;
-    this.id = id;
-    this.email = email;
+
+const Employee = require('./employee');
+
+class Manager extends Employee{
+  constructor({name, id, email, officeNumber}){
+    super({name, id, email})
     this.officeNumber = officeNumber;
-  }
+    this.role = 'Manager';
+  } 
   // get the name input from user
   getName() {
     return this.name;
@@ -19,13 +20,12 @@ class Manager {
     return this.email;
   }
   // get the office number input from user
-  getofficeNumber(){
+  getOfficeNumber(){
     return this.officeNumber
   }
   // get role for manager & returns manager
   getRole() {
-    return "Manager";
+    return this.role
   }
 }
-// export module
 module.exports = Manager;

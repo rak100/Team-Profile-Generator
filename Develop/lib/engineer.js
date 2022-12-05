@@ -1,10 +1,11 @@
-// creating class for engineer
-class Engineer {
-  constructor({ name, id, email, github }) {
-    this.name = name;
-    this.id = id;
-    this.email = email;
+const Employee = require('./employee');
+
+// importing class of employee
+class Engineer extends Employee {
+  constructor({ name, id, email, github}) {
+    super({name, id, email});
     this.github = github;
+    this.role = 'Engineer'
   }
   // get the name input from user
   getName() {
@@ -24,7 +25,7 @@ class Engineer {
   }
   // get role for Engineer & returns Engineer 
   getRole(){
-    return 'Engineer'
+    return this.role
   }
 }
 // export module
